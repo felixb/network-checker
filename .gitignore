@@ -1,0 +1,16 @@
+bin
+gen
+.ant-targets-build.xml
+local.properties
+build.properties
+doc
+*.zip
+*.jar
+*.swp
+*~
+obf
+.gradle
+.idea
+*.iml
+build
+release.ks

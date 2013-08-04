@@ -1,0 +1,52 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.5.+'
+    }
+}
+apply plugin: 'android'
+
+repositories {
+    mavenCentral()
+}
+
+android {
+    Properties props = new Properties()
+    props.load(new FileInputStream("local.properties"))
+
+    dependencies {
+        compile 'com.android.support:support-v4:18.0.+'
+    }
+
+    compileSdkVersion 18
+    buildToolsVersion "18.0.0"
+
+    defaultConfig {
+        minSdkVersion 8
+        targetSdkVersion 18
+
+        versionCode 1
+        versionName "1.0 preview"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("release.ks")
+            storePassword props.releaseKeystorePassword
+            keyAlias "androidreleasekey"
+            keyPassword props.releaseKeyPassword
+        }
+
+        buildTypes {
+            debug {
+                versionNameSuffix " debug"
+            }
+
+            release {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+}

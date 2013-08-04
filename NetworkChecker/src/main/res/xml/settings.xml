@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference android:key="enable"
+                        android:title="@string/notification"
+                        android:summaryOn="@string/notification_on"
+                        android:summaryOff="@string/notification_off"
+                        android:defaultValue="true"/>
+    <RingtonePreference android:key="sound"
+                        android:title="@string/sound"
+                        android:summary="@string/sound_summary"
+                        android:ringtoneType="notification"/>
+    <CheckBoxPreference android:key="vibrate"
+                        android:title="@string/vibrate"
+                        android:summaryOff="@string/vibrate_summary_on"
+                        android:summaryOn="@string/vibrate_summary_off"
+                        android:defaultValue="true"/>
+    <EditTextPreference android:key="delay"
+                        android:title="@string/notification_period"
+                        android:summary="@string/notification_period_summary"
+                        android:defaultValue="60"
+                        android:inputType="number"/>
+
+</PreferenceScreen>
