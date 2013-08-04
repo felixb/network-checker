@@ -8,8 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -30,7 +32,7 @@ public class CheckReceiver extends BroadcastReceiver {
 
     private static final long DELAY_NEXT_CHECK = 60 * 1000;
 
-    private static final long DELAY_SNOOZE = 10 * 60 * 60 * 1000;
+    private static final long DELAY_SNOOZE = 10 * 60 * 1000;
 
     private static final int ARGB = 0xffff;
 
@@ -94,8 +96,24 @@ public class CheckReceiver extends BroadcastReceiver {
         }
     }
 
+    private boolean isAirplaneModeOn(final Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            return Settings.System
+                    .getInt(context.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
+        } else {
+            return Settings.System
+                    .getInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0) != 0;
+        }
+    }
+
     private boolean check(final Context context) {
         Log.d(TAG, "check()");
+
+        if (isAirplaneModeOn(context)) {
+            Log.d(TAG, "airplane mode, ignore");
+            // ignore if, airplane more is on
+            return false;
+        }
 
         // telephony
         TelephonyManager tp = (TelephonyManager) context.getSystemService(
