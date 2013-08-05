@@ -101,6 +101,7 @@ public class CheckReceiver extends BroadcastReceiver {
             return Settings.System
                     .getInt(context.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
         } else {
+            //noinspection deprecation
             return Settings.System
                     .getInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0) != 0;
         }
