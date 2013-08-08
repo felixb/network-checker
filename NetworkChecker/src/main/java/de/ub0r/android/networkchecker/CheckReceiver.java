@@ -119,14 +119,37 @@ public class CheckReceiver extends BroadcastReceiver {
         // telephony
         TelephonyManager tp = (TelephonyManager) context.getSystemService(
                 Context.TELEPHONY_SERVICE);
-        if (TextUtils.isEmpty(tp.getNetworkOperator()) && TextUtils.isEmpty(
-                tp.getNetworkOperatorName())
-                && tp.getNetworkType() == TelephonyManager.NETWORK_TYPE_UNKNOWN) {
-            Log.w(TAG, "dead phone!");
-            return true;
+        if (Build.DEVICE.startsWith("GT-I8160")) {
+            if (tp.getSimState() == TelephonyManager.SIM_STATE_READY && !TextUtils
+                    .isEmpty(tp.getSimOperatorName()) && TextUtils
+                    .isEmpty(tp.getNetworkOperatorName())) {
+                Log.w(TAG, "dead phone!");
+                return true;
+            }
+        } else {
+            if (TextUtils.isEmpty(tp.getNetworkOperator()) && TextUtils
+                    .isEmpty(tp.getNetworkOperatorName())
+                    && tp.getNetworkType() == TelephonyManager.NETWORK_TYPE_UNKNOWN) {
+                Log.w(TAG, "dead phone!");
+                return true;
+            }
         }
 
+        logDeviceState(tp);
+
         return false;
+    }
+
+    private void logDeviceState(final TelephonyManager tp) {
+        // if none of the above match on a dead phone, try to find a pattern from these logs
+        Log.d(TAG, "device: " + Build.DEVICE);
+        Log.d(TAG, "net operator: " + tp.getNetworkOperator());
+        Log.d(TAG, "net operator name: " + tp.getNetworkOperatorName());
+        Log.d(TAG, "net type: " + tp.getNetworkType());
+        Log.d(TAG, "sim operator: " + tp.getSimOperator());
+        Log.d(TAG, "sim operator name: " + tp.getSimOperatorName());
+        Log.d(TAG, "sim state: " + tp.getSimState());
+        Log.d(TAG, "sim sn: " + tp.getSimSerialNumber());
     }
 
     private void notify(final Context context, final Intent intent) {
