@@ -13,9 +13,6 @@ repositories {
 }
 
 android {
-    Properties props = new Properties()
-    props.load(new FileInputStream("local.properties"))
-
     dependencies {
         compile 'com.android.support:support-v4:18.0.+'
     }
@@ -32,11 +29,13 @@ android {
     }
 
     signingConfigs {
-        release {
-            storeFile file("release.ks")
-            storePassword props.releaseKeystorePassword
-            keyAlias "androidreleasekey"
-            keyPassword props.releaseKeyPassword
+        if (project.hasProperty('releaseKeystorePassword')) {
+            release {
+                storeFile file("release.ks")
+                storePassword releaseKeystorePassword
+                keyAlias "androidreleasekey"
+                keyPassword releaseKeyPassword
+            }
         }
 
         buildTypes {
