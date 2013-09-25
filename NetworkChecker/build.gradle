@@ -18,14 +18,14 @@ android {
     }
 
     compileSdkVersion 18
-    buildToolsVersion "18.0.0"
+    buildToolsVersion "18.1.0"
 
     defaultConfig {
         minSdkVersion 8
         targetSdkVersion 18
 
         versionCode 1
-        versionName "1.0 preview"
+        versionName "1.0"
     }
 
     signingConfigs {
